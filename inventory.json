@@ -1,0 +1,31 @@
+{
+  "apparatus": "Collapse 45",
+  "unit": "3306",
+  "source": "Updated photographed inventory sheets (supersedes prior Excel)",
+  "inventoryRevision": "2026-09-19 (per source sheet)",
+  "photos": [
+    "images/IMG_0241(1).jpeg",
+    "images/IMG_0245.jpeg",
+    "images/IMG_0246.jpeg",
+    "images/IMG_0247(1).jpeg",
+    "images/IMG_0248(1).jpeg"
+  ],
+  "sourceSheets": [
+    "images/IMG_0249.jpeg",
+    "images/IMG_0250.jpeg",
+    "images/IMG_0251.jpeg",
+    "images/IMG_0252.jpeg",
+    "images/IMG_0253.jpeg",
+    "images/IMG_0254.jpeg",
+    "images/IMG_0255(1).jpeg",
+    "images/IMG_0256(1).jpeg",
+    "images/IMG_0257(1).jpeg",
+    "images/IMG_0258(2).jpeg",
+    "images/IMG_0259(1).jpeg",
+    "images/IMG_0260(1).jpeg",
+    "images/IMG_0261(1).jpeg",
+    "images/IMG_0262(1).jpeg",
+    "images/IMG_0263(1).jpeg"
+  ],
+  "items": []
+}
