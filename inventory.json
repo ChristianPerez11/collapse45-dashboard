@@ -27,11 +27,145 @@
     "images/IMG_0262(1).jpeg",
     "images/IMG_0263(1).jpeg"
   ],
-  "items": [],
+  "items": [
+    {
+      "name": "LED Box Lights",
+      "quantity": 4,
+      "compartment": "L1",
+      "location": "Top shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Holmatro/Akron Scene Light Charger",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Top shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "LED Survivor Coat Lights",
+      "quantity": 5,
+      "compartment": "L1",
+      "location": "Top shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Milwaukee Tool Battery Charger, M12 & M18 Batteries",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Top shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Honda Generator GX340",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Bottom shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Fuel Funnel",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Bottom shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Trailer Landing Gear Wrench",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Bottom shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "100' Heavy Gauge Extension Cord w/ Tri-Tap Outlet",
+      "quantity": 1,
+      "compartment": "L1",
+      "location": "Bottom shelf",
+      "source": "IMG_0249.jpeg"
+    },
+    {
+      "name": "Red Bags – 600 ft of 11 mm Life Safety Rope",
+      "quantity": 2,
+      "compartment": "L6",
+      "location": "Shelf #1 (Top)",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Orange Air Bag Control Box",
+      "quantity": 1,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Black Air Hose",
+      "quantity": 1,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Air Regulator with SCBA Bottle Block",
+      "quantity": 1,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Dead Man",
+      "quantity": 2,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Wye",
+      "quantity": 1,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Yellow Low Pressure Air Bags",
+      "quantity": 2,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    },
+    {
+      "name": "Low Pressure Hoses",
+      "quantity": 2,
+      "compartment": "L6",
+      "location": "Shelf #2",
+      "source": "IMG_0254.jpeg"
+    }
+  ],
   "rigViews": {
     "driver": "images/collapse45-driver.png",
     "passenger": "images/collapse45-passenger.png",
     "front": "images/collapse45-front.png",
     "rear": "images/collapse45-rear.png"
+  },
+  "compartmentPhotos": {
+    "L1": "images/compartment-l1.jpeg",
+    "L2": "images/compartment-l2.jpeg",
+    "L3": "images/compartment-l3.jpeg",
+    "L4": "images/compartment-l4.jpeg",
+    "L5": "images/compartment-l5.jpeg",
+    "L6": "images/compartment-l6.jpeg",
+    "L7": "images/compartment-l7.jpeg",
+    "L8": "images/compartment-l8.jpeg",
+    "L9": "images/compartment-l9.jpeg",
+    "R1": "images/compartment-r1.jpeg",
+    "R2": "images/compartment-r2.jpeg",
+    "R3": "images/compartment-r3.jpeg",
+    "R4": "images/compartment-r4.jpeg",
+    "R5": "images/compartment-r5.jpeg",
+    "R6": "images/compartment-r6.jpeg",
+    "R7": "images/compartment-r7.jpeg",
+    "R8": "images/compartment-r8.jpeg",
+    "R9": "images/compartment-r9.jpeg",
+    "REAR": "images/compartment-rear.jpeg"
   }
 }
