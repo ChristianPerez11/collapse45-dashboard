@@ -27,5 +27,11 @@
     "images/IMG_0262(1).jpeg",
     "images/IMG_0263(1).jpeg"
   ],
-  "items": []
+  "items": [],
+  "rigViews": {
+    "driver": "images/collapse45-driver.png",
+    "passenger": "images/collapse45-passenger.png",
+    "front": "images/collapse45-front.png",
+    "rear": "images/collapse45-rear.png"
+  }
 }

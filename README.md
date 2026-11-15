@@ -1,19 +1,42 @@
-# Collapse 45 Inventory Dashboard — Photo-first prototype
+# Collapse 45 — interactive inventory dashboard (v2)
 
-## Important
-The updated photographed inventory sheets are the only authoritative inventory sources in this package. The previously uploaded Excel spreadsheet was intentionally NOT used. Exact equipment transcription and compartment assignments have not been verified and are not represented as complete. No item should be considered physically present solely because it appears in a sheet.
+This is a **prototype**, not a department-approved operational inventory or inspection record.
 
-## Included
-- `index.html` dashboard with apparatus photo gallery, inventory source-sheet gallery, search and equipment entry form, local-only checklists.
-- `inventory.json` source manifest and empty reviewed equipment dataset.
-- `images/` deduplicated source photographs.
-- `style.css`, `app.js`.
+## Upload to GitHub
 
-## Launch
-Unzip. In the directory, run `python -m http.server 8000` and open `http://localhost:8000` in your browser. Alternatively upload all files and the images folder to a GitHub Pages repository. Opening index.html directly may prevent JSON loading.
+1. Open `ChristianPerez11/collapse45-dashboard` and select the `main` branch.
+2. Upload the **contents of this folder** (not the containing folder) to the root of the repository, including the `images/` directory. Replace `index.html`, `style.css`, `app.js`, `inventory.json` and `README.md` when GitHub prompts you.
+3. Commit the changes. In **Settings → Pages**, select **Deploy from a branch**, branch **main**, folder **/(root)**, and save. **Note:** GitHub Pages websites are publicly accessible; a private repository does not make the published Pages site private. Confirm department permission before hosting apparatus photographs or inventory documents publicly.
+4. Open `https://ChristianPerez11.github.io/collapse45-dashboard/` after Pages finishes deploying. If you cannot deploy due to repository/account settings, use a local server instead.
 
-## Next stage
-Transcribe each photo carefully and cross-check each row against the original, including compartment, shelf, quantity, kit contents, missing status and notes. Populate the JSON only after review. Map apparatus compartment hotspots after physical door labels are confirmed. Have the crew verify before operational use.
+## App features
+- Driver, passenger, front, rear illustrated vehicle views
+- Clickable provisional compartment markers; drag in Calibrate mode to align markers to the actual doors
+- Right-side compartment panel; search, list, locally saved reviewed equipment records
+- Local check mode (not an official inspection record)
+- Original updated inventory source sheets and apparatus photo gallery in Specs
+- Reviewable JSON import and export of equipment records
+- Responsive phone layout, dark and light modes
 
-## Privacy / persistence
-Manual edits and checklist selections live in browser localStorage only. Export reviewed entries as JSON for backup and to incorporate into the published shared data. The site has no authentication or shared inspection backend; it is not a substitute for official apparatus inspection software.
+## Important inventory caveats
+- `inventory.json` retains the updated photographed inventory sheets as authoritative sources. The old Excel spreadsheet is excluded.
+- The equipment `items` array is **empty** until source-sheet content is carefully transcribed and reviewed; no equipment presence is implied by the illustration.
+- Compartment marker positions in `app.js` are **provisional** and do not certify that a physical door has the displayed label. Calibrate and confirm each one with an actual truck walkthrough.
+- Browser local storage saves marker positions, equipment edits, and checks **only on that device/browser**. Other firefighters will not see those updates, and browser cleanup can erase them. Use Export JSON to back up changes; import reviewed entries on other devices or commit them to the authoritative `inventory.json` after proper review.
+- The four images are mockup illustrations, not photographs. The photos in Specs remain the official visual references supplied for this prototype.
+
+## Folder layout
+```
+index.html
+style.css
+app.js
+inventory.json
+README.md
+images/
+  collapse45-driver.png
+  collapse45-passenger.png
+  collapse45-front.png
+  collapse45-rear.png
+  IMG_0241(1).jpeg ... (apparatus photo references)
+  IMG_0249.jpeg ... (inventory source sheets)
+```
