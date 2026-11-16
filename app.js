@@ -29,45 +29,39 @@ function closeDrawer(){$('drawer').classList.add('hidden');$('scrim').classList.
 function filteredByComp(){return items.filter(x=>String(x.compartment).trim().toUpperCase()===selected);}
 function itemKey(x){return [x.compartment,x.name,x.location,x.source].join('|');}
 function renderCompartmentPhoto(){
-  // Support both the v2 HTML (which has no photo slot) and the v3 HTML.
+  // The photo belongs *inside* the scrollable drawer content, above the banner.
+  const content = $('drawer').querySelector('.drawer-content');
   let wrap = $('compartmentPhotoWrap');
   if (!wrap) {
     wrap = document.createElement('div');
     wrap.id = 'compartmentPhotoWrap';
     wrap.className = 'compartment-photo-wrap';
-    const drawer = $('drawer');
-    const content = drawer.querySelector('.drawer-content');
-    drawer.insertBefore(wrap, content || null);
+  }
+  if (wrap.parentElement !== content || content.firstElementChild !== wrap) {
+    content.prepend(wrap);
   }
   let img = $('compartmentPhoto');
   if (!img) {
     img = document.createElement('img');
     img.id = 'compartmentPhoto';
-    img.alt = 'Photograph of the selected Collapse 45 compartment';
     wrap.append(img);
   }
   const path = data?.compartmentPhotos?.[selected];
   wrap.classList.toggle('hidden', !path);
-  wrap.style.display = path ? 'block' : 'none';
-  if (!path) { img.removeAttribute('src'); return; }
-  wrap.style.width = '100%';
-  wrap.style.overflow = 'hidden';
-  wrap.style.background = '#0c1118';
-  img.style.display = 'block';
-  img.style.width = '100%';
-  img.style.maxHeight = '320px';
-  img.style.objectFit = 'cover';
-  img.style.objectPosition = 'center center';
-  img.style.cursor = 'zoom-in';
+  if (!path) {
+    img.removeAttribute('src');
+    return;
+  }
   img.alt = `Photo of compartment ${selected}`;
-  img.src = path;
   img.onerror = () => {
-    // Do not silently show a broken-image icon if a local file is missing.
-    wrap.style.display = 'none';
+    wrap.classList.add('hidden');
     console.warn(`Compartment photo could not load: ${path}`);
   };
+  img.onload = () => wrap.classList.remove('hidden');
+  img.src = path;
   img.onclick = () => showPhoto(path);
 }
+
 function renderCompartment(){
   renderCompartmentPhoto();
   const list = filteredByComp();
