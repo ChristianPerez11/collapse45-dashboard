@@ -44,3 +44,16 @@ body.light #drawer .drawer-head{background:var(--panel)}
 body.light .info-bar{background:#e9f0f5;color:#374553}
 body.light .info-bar strong{color:#17222e}
 @media print{#drawer .drawer-head{position:static}#drawer .photo-hint{display:none}}
+
+/* v6 Excel import preview */
+.excel-dialog{width:min(830px,96vw);max-height:88vh;padding:22px;overflow-y:auto}
+.excel-preview-head,.excel-preview-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.excel-preview-head h2{margin:0 0 12px}.excel-preview-actions{margin-top:18px;justify-content:flex-end}
+.excel-preview-actions .primary{padding:11px 18px;border:0;border-radius:8px}.excel-preview-actions .primary:disabled{opacity:.4;cursor:not-allowed}
+.excel-summary{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.excel-summary span{padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel2);font-size:12px}
+.excel-errors{background:#612c30;color:#fff4f4;border-left:3px solid var(--red);padding:13px;border-radius:6px;max-height:260px;overflow-y:auto}
+.excel-diff{overflow:auto;max-height:350px;border:1px solid var(--border);border-radius:9px}
+.excel-diff table{border-collapse:collapse;width:100%;font-size:12px}.excel-diff th,.excel-diff td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.excel-diff th{background:var(--panel2);position:sticky;top:0}
+@media print{.excel-dialog{display:none!important}}

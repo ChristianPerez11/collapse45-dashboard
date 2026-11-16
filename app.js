@@ -94,5 +94,189 @@ function renderCompartment(){
 function renderList(){const q=$('globalSearch').value.toLowerCase().trim();const list=items.filter(x=>Object.values(x).some(v=>String(v??'').toLowerCase().includes(q)));$('listResults').innerHTML=list.length?list.map(x=>`<article class="record"><strong>${escapeHtml(x.name)}</strong><p>${escapeHtml(x.compartment)} · ${escapeHtml(x.location||'Shelf unconfirmed')} · Qty: ${escapeHtml(x.quantity??'unconfirmed')}</p><small>${escapeHtml(x.status||'Listed — unverified')} · Source: ${escapeHtml(x.source||'Not linked')}</small>${x.notes?`<p>${escapeHtml(x.notes)}</p>`:''}</article>`).join(''):`<div class="empty">${q?'No matching equipment records.':'No reviewed equipment records yet. The photographed inventory sheets are available in Specs.'}</div>`;}
 function showPhoto(path){$('viewerImg').src=path;$('viewerCaption').textContent=path.split('/').pop();$('viewer').showModal();}
 function renderGallery(id,paths){const target=$(id);target.replaceChildren();paths.forEach((path,i)=>{const button=document.createElement('button');button.className='photo';const image=document.createElement('img');image.src=path;image.loading='lazy';image.alt='Source photo '+(i+1);const text=document.createElement('span');text.textContent=path.split('/').pop();button.append(image,text);button.addEventListener('click',()=>showPhoto(path));target.append(button);});}
-function init(){positions=readStorage(markersKey,{});checked=readStorage(checksKey,{});const saved=readStorage(storageKey,null);items=Array.isArray(saved)?saved:(Array.isArray(data.items)?data.items:[]);renderGallery('photos',data.photos||[]);renderGallery('sheetsGrid',data.sourceSheets||[]);const select=$('compartmentSelect');['L1','L2','L3','L4','L5','L6','L7','L8','L9','R1','R2','R3','R4','R5','R6','R7','R8','R9','CAB','REAR'].forEach(id=>{const op=document.createElement('option');op.textContent=id;op.value=id;select.append(op);});document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('calibrateBtn').onclick=()=>{calibrating=!calibrating;$('calibrateBtn').textContent=calibrating?'✓ Done calibrating':'♧ Calibrate';$('resetMap').classList.toggle('hidden',!calibrating);$('mapStatus').textContent=calibrating?'Drag markers to their compartment doors.':'Select a compartment to view its inventory.';closeDrawer();renderMarkers();};$('resetMap').onclick=()=>{if(!confirm('Reset marker positions for the current view?'))return;delete positions[view];store(markersKey,positions);renderMarkers();};$('closeDrawer').onclick=closeDrawer;$('scrim').onclick=closeDrawer;$('checkToggle').onclick=()=>{checking=!checking;$('checkToggle').textContent=checking?'✓ Exit check mode':'☑ Check mode';$('checkToggle').classList.toggle('active',checking);if(selected)renderCompartment();};$('checkAll').onclick=()=>{filteredByComp().forEach(x=>{checked[itemKey(x)]=true});store(checksKey,checked);renderCompartment();};$('clearChecks').onclick=()=>{filteredByComp().forEach(x=>{delete checked[itemKey(x)]});store(checksKey,checked);renderCompartment();};$('printComp').onclick=()=>window.print();$('printBtn').onclick=()=>window.print();$('themeBtn').onclick=()=>document.body.classList.toggle('light');$('addHere').onclick=()=>{const id=selected;setPage('list');$('compartmentSelect').value=id;$('entryForm').closest('details').open=true;$('entryForm').elements.namedItem('name').focus();};$('entryForm').onsubmit=e=>{e.preventDefault();const record=Object.fromEntries(new FormData(e.target));record.quantity=record.quantity===''?null:Number(record.quantity);if(!record.name?.trim())return;items.push(record);saveItems();e.target.reset();renderList();alert('Saved on this device. This is not a shared or approved apparatus inventory.');};$('globalSearch').addEventListener('input',()=>{if($('globalSearch').value.trim())setPage('list');renderList();});$('exportItems').onclick=()=>downloadJSON('collapse45_reviewed_equipment.json',{apparatus:'Collapse 45',unit:'3306',items});$('importItems').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const payload=JSON.parse(await file.text());if(!Array.isArray(payload.items))throw Error('Expected a JSON object with an items array');if(!confirm('Replace all equipment records saved in this browser with these imported records?'))return;items=payload.items;saveItems();renderList();}catch(err){alert('Import failed: '+err.message)}finally{e.target.value='';}};$('closeViewer').onclick=()=>$('viewer').close();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});setView('driver');renderList();}
+function init(){positions=readStorage(markersKey,{});checked=readStorage(checksKey,{});const saved=readStorage(storageKey,null);items=Array.isArray(saved)?saved:(Array.isArray(data.items)?data.items:[]);renderGallery('photos',data.photos||[]);renderGallery('sheetsGrid',data.sourceSheets||[]);const select=$('compartmentSelect');['L1','L2','L3','L4','L5','L6','L7','L8','L9','R1','R2','R3','R4','R5','R6','R7','R8','R9','CAB','REAR'].forEach(id=>{const op=document.createElement('option');op.textContent=id;op.value=id;select.append(op);});document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('calibrateBtn').onclick=()=>{calibrating=!calibrating;$('calibrateBtn').textContent=calibrating?'✓ Done calibrating':'♧ Calibrate';$('resetMap').classList.toggle('hidden',!calibrating);$('mapStatus').textContent=calibrating?'Drag markers to their compartment doors.':'Select a compartment to view its inventory.';closeDrawer();renderMarkers();};$('resetMap').onclick=()=>{if(!confirm('Reset marker positions for the current view?'))return;delete positions[view];store(markersKey,positions);renderMarkers();};$('closeDrawer').onclick=closeDrawer;$('scrim').onclick=closeDrawer;$('checkToggle').onclick=()=>{checking=!checking;$('checkToggle').textContent=checking?'✓ Exit check mode':'☑ Check mode';$('checkToggle').classList.toggle('active',checking);if(selected)renderCompartment();};$('checkAll').onclick=()=>{filteredByComp().forEach(x=>{checked[itemKey(x)]=true});store(checksKey,checked);renderCompartment();};$('clearChecks').onclick=()=>{filteredByComp().forEach(x=>{delete checked[itemKey(x)]});store(checksKey,checked);renderCompartment();};$('printComp').onclick=()=>window.print();$('printBtn').onclick=()=>window.print();$('themeBtn').onclick=()=>document.body.classList.toggle('light');$('addHere').onclick=()=>{const id=selected;setPage('list');$('compartmentSelect').value=id;$('entryForm').closest('details').open=true;$('entryForm').elements.namedItem('name').focus();};$('entryForm').onsubmit=e=>{e.preventDefault();const record=Object.fromEntries(new FormData(e.target));record.quantity=record.quantity===''?null:Number(record.quantity);if(!record.name?.trim())return;items.push(record);saveItems();e.target.reset();renderList();alert('Saved on this device. This is not a shared or approved apparatus inventory.');};$('globalSearch').addEventListener('input',()=>{if($('globalSearch').value.trim())setPage('list');renderList();});$('exportItems').onclick=()=>downloadJSON('collapse45_reviewed_equipment.json',{apparatus:'Collapse 45',unit:'3306',items});$('importItems').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const payload=JSON.parse(await file.text());if(!Array.isArray(payload.items))throw Error('Expected a JSON object with an items array');if(!confirm('Replace all equipment records saved in this browser with these imported records?'))return;items=payload.items;saveItems();renderList();}catch(err){alert('Import failed: '+err.message)}finally{e.target.value='';}};$('closeViewer').onclick=()=>$('viewer').close();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});setView('driver');renderList();initExcelImport();}
 fetch('inventory.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(value=>{data=value;if(!data.rigViews)throw Error('Missing rigViews');init();}).catch(err=>{document.querySelector('.info-bar').textContent='Unable to load inventory.json ('+err.message+'). Use GitHub Pages or run a local web server in this folder.';});
+
+// Collapse 45 Excel / CSV import. Local-only: no uploads or external libraries.
+'use strict';
+const C45_ALLOWED_COMPARTMENTS = new Set([...Array.from({length:9},(_,i)=>'L'+(i+1)),...Array.from({length:9},(_,i)=>'R'+(i+1)),'CAB','REAR']);
+const C45_HEADERS = {
+  compartment:['compartment','compartment id','compartment number','comp'],
+  name:['equipment name','equipment','name','item','item name','description'],
+  quantity:['quantity','qty','count','number'],
+  location:['shelf / location','shelf/location','shelf','location','storage location'],
+  kit:['kit','subkit','group'], source:['source photograph','source photo','source','photograph'],
+  sharedWith:['shared with','sharedwith'], sharedInventoryReference:['shared reference','shared inventory reference']
+};
+const c45Norm = s => String(s??'').toLowerCase().trim().replace(/\s+/g,' ');
+const c45Text = s => String(s??'').trim();
+const c45Esc = s => escapeHtml(s);
+function c45Xml(text){const doc=new DOMParser().parseFromString(text,'application/xml');if(doc.getElementsByTagName('parsererror').length)throw Error('Invalid Excel worksheet XML.');return doc;}
+function c45Child(el,name){return Array.from(el.children||[]).find(x=>x.localName===name);}
+function c45Children(el,name){return Array.from(el.children||[]).filter(x=>x.localName===name);}
+function c45AllText(el){return Array.from(el?.getElementsByTagName('*')||[]).filter(x=>x.localName==='t').map(x=>x.textContent).join('');}
+function c45ColIndex(cellRef){const letters=(cellRef.match(/^[A-Za-z]+/)||[''])[0].toUpperCase();let n=0;for(const c of letters)n=n*26+c.charCodeAt(0)-64;return n-1;}
+function c45ZipEntries(bytes){
+  const v=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  let eocd=-1;
+  for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65558);i--){if(v.getUint32(i,true)===0x06054b50){eocd=i;break;}}
+  if(eocd<0)throw Error('This is not a valid .xlsx file (ZIP directory not found).');
+  const count=v.getUint16(eocd+10,true), offset=v.getUint32(eocd+16,true);
+  if(count===65535||offset===0xffffffff)throw Error('ZIP64 Excel files are not supported; save a standard .xlsx workbook.');
+  const entries=new Map();let p=offset;
+  for(let i=0;i<count;i++){
+    if(v.getUint32(p,true)!==0x02014b50)throw Error('The workbook ZIP directory is damaged.');
+    const method=v.getUint16(p+10,true),size=v.getUint32(p+20,true),nameLen=v.getUint16(p+28,true),extraLen=v.getUint16(p+30,true),commentLen=v.getUint16(p+32,true),local=v.getUint32(p+42,true);
+    const name=new TextDecoder().decode(bytes.subarray(p+46,p+46+nameLen));
+    if(name.includes('..'))throw Error('Unsafe workbook path.');
+    entries.set(name,{method,size,local});p+=46+nameLen+extraLen+commentLen;
+  }
+  async function read(name){
+    const entry=entries.get(name);if(!entry)throw Error('Missing workbook part: '+name);
+    const p=entry.local;if(v.getUint32(p,true)!==0x04034b50)throw Error('Damaged workbook ZIP entry.');
+    const start=p+30+v.getUint16(p+26,true)+v.getUint16(p+28,true);
+    const compressed=bytes.slice(start,start+entry.size);
+    if(entry.method===0)return new TextDecoder().decode(compressed);
+    if(entry.method!==8)throw Error('Unsupported workbook ZIP compression.');
+    if(typeof DecompressionStream==='undefined')throw Error('Excel import requires a recent Chrome or Edge browser.');
+    const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+    return new TextDecoder().decode(await new Response(stream).arrayBuffer());
+  }
+  return {entries,read};
+}
+async function c45ReadXlsx(file){
+  const bytes=new Uint8Array(await file.arrayBuffer()), zip=c45ZipEntries(bytes);
+  const wb=c45Xml(await zip.read('xl/workbook.xml'));
+  const rels=c45Xml(await zip.read('xl/_rels/workbook.xml.rels'));
+  const maps=new Map(Array.from(rels.getElementsByTagName('*')).filter(x=>x.localName==='Relationship').map(x=>[x.getAttribute('Id'),x.getAttribute('Target')]));
+  const sheets=Array.from(wb.getElementsByTagName('*')).filter(x=>x.localName==='sheet');
+  if(!sheets.length)throw Error('Workbook has no worksheets.');
+  const sheet=sheets.find(x=>/^(inventory|equipment|equipment inventory)$/i.test(x.getAttribute('name')||''))||sheets[0];
+  const rid=Array.from(sheet.attributes).find(x=>x.localName==='id')?.value;
+  const target=maps.get(rid);if(!target)throw Error('Cannot locate the Inventory worksheet.');
+  const path=target.startsWith('/')?target.slice(1):target.startsWith('xl/')?target:'xl/'+target;
+  let strings=[];
+  if(zip.entries.has('xl/sharedStrings.xml')){
+    const shared=c45Xml(await zip.read('xl/sharedStrings.xml'));
+    strings=Array.from(shared.getElementsByTagName('*')).filter(x=>x.localName==='si').map(x=>c45AllText(x));
+  }
+  const doc=c45Xml(await zip.read(path));
+  const rows=Array.from(doc.getElementsByTagName('*')).filter(x=>x.localName==='row').map(row=>{
+    const values=[];
+    c45Children(row,'c').forEach(cell=>{
+      const col=c45ColIndex(cell.getAttribute('r')||'');if(col<0||col>100) return;
+      const type=cell.getAttribute('t');const v=c45Child(cell,'v')?.textContent??'';
+      values[col]=type==='s'?strings[Number(v)]??'':type==='inlineStr'?c45AllText(c45Child(cell,'is')):type==='b'?(v==='1'):v;
+    });
+    return {line:Number(row.getAttribute('r'))||0,values};
+  });
+  return {rows,sheet:sheet.getAttribute('name')||'Sheet1'};
+}
+function c45ReadCsv(text){
+  text=text.replace(/^\uFEFF/,'');const records=[];let row=[],value='',quoted=false,line=1,recordLine=1;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(quoted){if(ch==='"'&&text[i+1]==='"'){value+='"';i++;}else if(ch==='"')quoted=false;else{value+=ch;if(ch==='\n')line++;}}
+    else if(ch==='"')quoted=true;
+    else if(ch===','){row.push(value);value='';}
+    else if(ch==='\n'||ch==='\r'){
+      if(ch==='\r'&&text[i+1]==='\n')i++;
+      row.push(value);records.push({line:recordLine,values:row});row=[];value='';line++;recordLine=line;
+    }else value+=ch;
+  }
+  if(quoted)throw Error('CSV contains an unterminated quoted value.');
+  if(value!==''||row.length){row.push(value);records.push({line:recordLine,values:row});}
+  return {rows:records,sheet:'CSV'};
+}
+function c45MapRows(source){
+  const rows=source.rows;
+  const headerIndex=rows.findIndex(r=>r.values.some(x=>C45_HEADERS.compartment.includes(c45Norm(x)))&&r.values.some(x=>C45_HEADERS.name.includes(c45Norm(x))));
+  if(headerIndex<0)throw Error('Missing header row. Required: Compartment, Equipment Name, Quantity, Shelf / Location.');
+  const header=rows[headerIndex].values.map(c45Norm);
+  const col={};for(const [key,names] of Object.entries(C45_HEADERS))col[key]=header.findIndex(h=>names.includes(h));
+  for(const key of ['compartment','name','quantity','location'])if(col[key]<0)throw Error('Missing required column: '+key+'.');
+  const errors=[],records=[];
+  for(const row of rows.slice(headerIndex+1)){
+    const get=key=>col[key]<0?'':row.values[col[key]];
+    if(!row.values.some(x=>c45Text(x)!==''))continue;
+    const compartment=c45Text(get('compartment')).toUpperCase(),name=c45Text(get('name'));
+    const quantityValue=c45Text(get('quantity')), location=c45Text(get('location'));
+    if(!C45_ALLOWED_COMPARTMENTS.has(compartment)){errors.push(`Row ${row.line}: invalid compartment "${compartment}".`);continue;}
+    if(!name){errors.push(`Row ${row.line}: equipment name is missing.`);continue;}
+    if(!location){errors.push(`Row ${row.line}: shelf/location is missing.`);continue;}
+    if(quantityValue.length>80||/^-[0-9]/.test(quantityValue)||(/^[0-9]+$/.test(quantityValue)&&Number(quantityValue)>1000000)){errors.push(`Row ${row.line}: invalid quantity.`);continue;}
+    const entry={name,quantity:quantityValue===''?null:/^[0-9]+$/.test(quantityValue)?Number(quantityValue):quantityValue,compartment,location};
+    if(c45Text(get('kit')))entry.kit=c45Text(get('kit'));
+    if(c45Text(get('source')))entry.source=c45Text(get('source'));
+    if(c45Text(get('sharedWith')))entry.sharedWith=c45Text(get('sharedWith')).toUpperCase();
+    const shared=c45Norm(get('sharedInventoryReference'));
+    if(['true','yes','1','y'].includes(shared))entry.sharedInventoryReference=true;
+    records.push(entry);
+  }
+  if(!records.length)throw Error('No valid inventory rows were found.');
+  return {records,errors,sheet:source.sheet};
+}
+function c45Diff(before,after){
+  const key=x=>[x.compartment,c45Norm(x.name),c45Norm(x.location),c45Norm(x.kit),c45Norm(x.sharedWith),x.sharedInventoryReference?'shared':''].join('|');
+  const bag=arr=>{const m=new Map();arr.forEach(x=>{const k=key(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x);});return m;};
+  const a=bag(before),b=bag(after),changes=[];let added=0,removed=0,changed=0,unchanged=0;
+  for(const k of new Set([...a.keys(),...b.keys()])){
+    const old=a.get(k)||[],neu=b.get(k)||[];
+    for(let i=0;i<Math.max(old.length,neu.length);i++){
+      const x=old[i],y=neu[i];
+      if(!x){added++;changes.push({type:'Added',item:y});}
+      else if(!y){removed++;changes.push({type:'Removed',item:x});}
+      else if(x.quantity!==y.quantity||c45Text(x.source)!==c45Text(y.source)){
+        changed++;changes.push({type:'Changed',item:y,from:x});
+      }else unchanged++;
+    }
+  }
+  return {added,removed,changed,unchanged,changes};
+}
+function c45ClosePreview(){c45Pending=null;$('excelPreview').close();$('excelFile').value='';}
+let c45Pending=null;
+function initExcelImport(){
+  const input=$('excelFile'), dialog=$('excelPreview'),stats=$('excelStats'),detail=$('excelDetails'),apply=$('excelApply');
+  input.addEventListener('change',async()=>{
+    const file=input.files?.[0];if(!file)return;
+    c45Pending=null;apply.disabled=true;
+    dialog.showModal();stats.textContent='Reading and validating '+file.name+'…';detail.replaceChildren();
+    try{
+      if(file.size>15*1024*1024)throw Error('File exceeds 15 MB.');
+      const ext=file.name.split('.').pop().toLowerCase();
+      const parsed=ext==='csv'?c45ReadCsv(await file.text()):ext==='xlsx'?await c45ReadXlsx(file):null;
+      if(!parsed)throw Error('Select a .xlsx or .csv file. Old .xls files must be saved as .xlsx.');
+      const {records,errors,sheet}=c45MapRows(parsed);
+      const diff=c45Diff(items,records);
+      stats.innerHTML=`<strong>${c45Esc(file.name)}</strong> · Sheet: ${c45Esc(sheet)}<div class="excel-summary"><span>${records.length} rows</span><span>${diff.added} added</span><span>${diff.changed} changed</span><span>${diff.removed} removed</span><span>${diff.unchanged} unchanged</span></div>`;
+      if(errors.length){
+        const box=document.createElement('div');box.className='excel-errors';box.innerHTML=`<strong>Import blocked: ${errors.length} invalid row(s)</strong><ul>${errors.slice(0,35).map(x=>`<li>${c45Esc(x)}</li>`).join('')}</ul>${errors.length>35?'<p>Additional errors not shown.</p>':''}`;detail.append(box);
+      }else{
+        const warning=document.createElement('p');warning.className='muted';warning.textContent='Preview only. Confirming replaces the equipment inventory saved in this browser. Photographs, apparatus views, and marker positions are not changed. GitHub is NOT updated automatically.';detail.append(warning);
+        const table=document.createElement('div');table.className='excel-diff';
+        if(diff.changes.length){table.innerHTML=`<table><thead><tr><th>Change</th><th>Compartment</th><th>Equipment</th><th>Qty</th></tr></thead><tbody>${diff.changes.slice(0,100).map(x=>`<tr><td>${x.type}</td><td>${c45Esc(x.item.compartment)}</td><td>${c45Esc(x.item.name)}</td><td>${x.from?c45Esc(x.from.quantity??'—')+' → ':''}${c45Esc(x.item.quantity??'—')}</td></tr>`).join('')}</tbody></table>${diff.changes.length>100?`<p class="muted">Showing first 100 of ${diff.changes.length} changes.</p>`:''}`;}
+        else table.textContent='No changes found.';
+        detail.append(table);c45Pending=records;apply.disabled=false;
+      }
+    }catch(err){stats.textContent='Import failed';const box=document.createElement('p');box.className='excel-errors';box.textContent=err.message;detail.append(box);}
+  });
+  $('excelCancel').onclick=c45ClosePreview;
+  dialog.addEventListener('cancel',()=>{c45Pending=null;input.value='';});
+  apply.onclick=()=>{
+    if(!c45Pending)return;
+    const prior=items;
+    try{
+      const saved=JSON.stringify(c45Pending);localStorage.setItem(storageKey,saved);
+      items=c45Pending;c45Pending=null;renderList();if(selected)renderCompartment();
+      const full={...data,items};
+      downloadJSON('collapse45_inventory_for_github.json',full);
+      c45ClosePreview();
+      alert('Inventory imported on this browser. A complete inventory JSON file was also downloaded. To share updates or make them permanent in GitHub, back up the repository inventory.json and upload the downloaded file renamed as inventory.json.');
+    }catch(err){items=prior;alert('Could not save inventory: '+err.message+'; no changes applied.');}
+  };
+  $('excelExport').onclick=()=>downloadJSON('collapse45_inventory_for_github.json',{...data,items});
+  $('excelTemplate').onclick=()=>{const headers=['Compartment','Equipment Name','Quantity','Shelf / Location','Kit','Source Photograph','Shared With','Shared Reference'];const lines=[headers,...items.map(i=>[i.compartment,i.name,i.quantity??'',i.location??'',i.kit??'',i.source??'',i.sharedWith??'',i.sharedInventoryReference?'Yes':''])];
+    const csv=lines.map(row=>row.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\r\n');
+    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='collapse45_inventory_template.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+  };
+}
