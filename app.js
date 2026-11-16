@@ -28,7 +28,75 @@ function openDrawer(id){selected=id;renderMarkers();$('drawerId').textContent=id
 function closeDrawer(){$('drawer').classList.add('hidden');$('scrim').classList.add('hidden');selected='';if(data)renderMarkers();}
 function filteredByComp(){return items.filter(x=>String(x.compartment).trim().toUpperCase()===selected);}
 function itemKey(x){return [x.compartment,x.name,x.location,x.source].join('|');}
-function renderCompartment(){const list=filteredByComp();$('compartmentItems').innerHTML=list.length?list.map(x=>`<div class="check-line">${checking?`<input type="checkbox" data-check="${escapeHtml(itemKey(x))}" ${checked[itemKey(x)]?'checked':''}>`:''}<label><strong>${escapeHtml(x.name)}</strong><small>Qty: ${escapeHtml(x.quantity ?? 'unconfirmed')} · ${escapeHtml(x.location||'Shelf unconfirmed')}</small><small>Status: ${escapeHtml(x.status||'Listed — unverified')}</small></label></div>`).join(''):'<div class="empty">No reviewed equipment records are linked to this compartment yet.<br>Use the photographed inventory sheets as the source of truth.</div>';document.querySelectorAll('[data-check]').forEach(el=>el.addEventListener('change',()=>{checked[el.dataset.check]=el.checked;store(checksKey,checked);}));}
+function renderCompartmentPhoto(){
+  // Support both the v2 HTML (which has no photo slot) and the v3 HTML.
+  let wrap = $('compartmentPhotoWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'compartmentPhotoWrap';
+    wrap.className = 'compartment-photo-wrap';
+    const drawer = $('drawer');
+    const content = drawer.querySelector('.drawer-content');
+    drawer.insertBefore(wrap, content || null);
+  }
+  let img = $('compartmentPhoto');
+  if (!img) {
+    img = document.createElement('img');
+    img.id = 'compartmentPhoto';
+    img.alt = 'Photograph of the selected Collapse 45 compartment';
+    wrap.append(img);
+  }
+  const path = data?.compartmentPhotos?.[selected];
+  wrap.classList.toggle('hidden', !path);
+  wrap.style.display = path ? 'block' : 'none';
+  if (!path) { img.removeAttribute('src'); return; }
+  wrap.style.width = '100%';
+  wrap.style.overflow = 'hidden';
+  wrap.style.background = '#0c1118';
+  img.style.display = 'block';
+  img.style.width = '100%';
+  img.style.maxHeight = '320px';
+  img.style.objectFit = 'cover';
+  img.style.objectPosition = 'center center';
+  img.style.cursor = 'zoom-in';
+  img.alt = `Photo of compartment ${selected}`;
+  img.src = path;
+  img.onerror = () => {
+    // Do not silently show a broken-image icon if a local file is missing.
+    wrap.style.display = 'none';
+    console.warn(`Compartment photo could not load: ${path}`);
+  };
+  img.onclick = () => showPhoto(path);
+}
+function renderCompartment(){
+  renderCompartmentPhoto();
+  const list = filteredByComp();
+  const container = $('compartmentItems');
+  if (!list.length) {
+    container.innerHTML = '<div class="empty">Equipment list not entered for this compartment yet.</div>';
+    return;
+  }
+  // Preserve the inventory sheet order within each shelf; show no status or notes.
+  const sections = new Map();
+  list.forEach(item => {
+    const shelf = String(item.location || 'Equipment').trim() || 'Equipment';
+    if (!sections.has(shelf)) sections.set(shelf, []);
+    sections.get(shelf).push(item);
+  });
+  container.innerHTML = [...sections].map(([shelf, records]) => `
+    <section class="equipment-shelf" style="margin:0 0 22px">
+      <h3 style="color:#f04438;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:16px 0 10px">${escapeHtml(shelf)}</h3>
+      ${records.map(x => `
+        <div class="check-line" style="padding:7px 0;align-items:center">
+          ${checking ? `<input type="checkbox" data-check="${escapeHtml(itemKey(x))}" ${checked[itemKey(x)] ? 'checked' : ''}>` : ''}
+          <label style="font-weight:400;line-height:1.45">${escapeHtml(x.quantity == null ? '' : `${x.quantity} × `)}${escapeHtml(x.name)}</label>
+        </div>`).join('')}
+    </section>`).join('');
+  container.querySelectorAll('[data-check]').forEach(el => el.addEventListener('change', () => {
+    checked[el.dataset.check] = el.checked;
+    store(checksKey, checked);
+  }));
+}
 function renderList(){const q=$('globalSearch').value.toLowerCase().trim();const list=items.filter(x=>Object.values(x).some(v=>String(v??'').toLowerCase().includes(q)));$('listResults').innerHTML=list.length?list.map(x=>`<article class="record"><strong>${escapeHtml(x.name)}</strong><p>${escapeHtml(x.compartment)} · ${escapeHtml(x.location||'Shelf unconfirmed')} · Qty: ${escapeHtml(x.quantity??'unconfirmed')}</p><small>${escapeHtml(x.status||'Listed — unverified')} · Source: ${escapeHtml(x.source||'Not linked')}</small>${x.notes?`<p>${escapeHtml(x.notes)}</p>`:''}</article>`).join(''):`<div class="empty">${q?'No matching equipment records.':'No reviewed equipment records yet. The photographed inventory sheets are available in Specs.'}</div>`;}
 function showPhoto(path){$('viewerImg').src=path;$('viewerCaption').textContent=path.split('/').pop();$('viewer').showModal();}
 function renderGallery(id,paths){const target=$(id);target.replaceChildren();paths.forEach((path,i)=>{const button=document.createElement('button');button.className='photo';const image=document.createElement('img');image.src=path;image.loading='lazy';image.alt='Source photo '+(i+1);const text=document.createElement('span');text.textContent=path.split('/').pop();button.append(image,text);button.addEventListener('click',()=>showPhoto(path));target.append(button);});}
