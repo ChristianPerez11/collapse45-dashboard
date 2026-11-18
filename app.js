@@ -6,14 +6,114 @@ const markersKey = 'collapse45_marker_positions_v2';
 const checksKey = 'collapse45_checks_v2';
 const modes = ['driver','passenger','front','rear'];
 const defaultMarkers = {
-  driver: [
-    ['L1',31,54],['L2',37,54],['L3',46,54],['L4',54,54],['L5',63,54],['L6',72,44],['L7',78,44],['L8',90,54],['L9',94,60]
+  "driver": [
+    [
+      "L1",
+      29.45,
+      46.23
+    ],
+    [
+      "L2",
+      35.49,
+      46.77
+    ],
+    [
+      "L3",
+      41.98,
+      67.44
+    ],
+    [
+      "L4",
+      49.67,
+      66.89
+    ],
+    [
+      "L5",
+      57.36,
+      66.89
+    ],
+    [
+      "L6",
+      64.95,
+      66.89
+    ],
+    [
+      "L7",
+      73.08,
+      51.12
+    ],
+    [
+      "L8",
+      81.65,
+      51.12
+    ],
+    [
+      "L9",
+      90.55,
+      66.89
+    ]
   ],
-  passenger: [
-    ['R1',29,53],['R2',37,45],['R3',44,45],['R4',51,54],['R5',59,54],['R6',66,54],['R7',75,54],['R8',85,54],['R9',94,60]
+  "passenger": [
+    [
+      "R1",
+      67.69,
+      43.31
+    ],
+    [
+      "R2",
+      61.54,
+      43.31
+    ],
+    [
+      "R3",
+      55.05,
+      63.88
+    ],
+    [
+      "R4",
+      47.58,
+      63.88
+    ],
+    [
+      "R5",
+      40.33,
+      63.88
+    ],
+    [
+      "R6",
+      33.08,
+      63.88
+    ],
+    [
+      "R7",
+      25.6,
+      44.39
+    ],
+    [
+      "R8",
+      18.57,
+      44.39
+    ],
+    [
+      "R9",
+      11.1,
+      63.88
+    ]
   ],
-  front: [['CAB',50,52]],
-  rear: [['REAR',50,53]]
+  "front": [
+    [
+      "CAB",
+      50.73,
+      31.24
+    ]
+  ],
+  "rear": [
+    [
+      "REAR",
+      52.63,
+      32.74
+    ]
+  ]
 };
 let data, items = [], view='driver', page='map', selected='', calibrating=false, checking=false, positions={}, checked={};
 function readStorage(key, fallback) {try { const value=JSON.parse(localStorage.getItem(key));return value ?? fallback;}catch{return fallback;}}
@@ -91,10 +191,40 @@ function renderCompartment(){
     store(checksKey, checked);
   }));
 }
-function renderList(){const q=$('globalSearch').value.toLowerCase().trim();const list=items.filter(x=>Object.values(x).some(v=>String(v??'').toLowerCase().includes(q)));$('listResults').innerHTML=list.length?list.map(x=>`<article class="record"><strong>${escapeHtml(x.name)}</strong><p>${escapeHtml(x.compartment)} · ${escapeHtml(x.location||'Shelf unconfirmed')} · Qty: ${escapeHtml(x.quantity??'unconfirmed')}</p><small>${escapeHtml(x.status||'Listed — unverified')} · Source: ${escapeHtml(x.source||'Not linked')}</small>${x.notes?`<p>${escapeHtml(x.notes)}</p>`:''}</article>`).join(''):`<div class="empty">${q?'No matching equipment records.':'No reviewed equipment records yet. The photographed inventory sheets are available in Specs.'}</div>`;}
+// Compact equipment finder. Filters apply to the currently loaded (possibly Excel-imported) records.
+let listCompartment='ALL', listSort='compartment';
+function renderList(){
+  const q=$('globalSearch').value.toLowerCase().trim();
+  const filtered=items.filter(x=>{
+    const compartment=String(x.compartment??'').trim().toUpperCase();
+    if(listCompartment!=='ALL' && compartment!==listCompartment)return false;
+    return !q || [x.name,x.compartment,x.location,x.kit].some(v=>String(v??'').toLowerCase().includes(q));
+  });
+  const compartmentRank=id=>{
+    const match=/^([LR])(\d+)$/.exec(String(id??'').toUpperCase());
+    return match?(match[1]==='L'?0:100)+Number(match[2]):id==='CAB'?200:id==='REAR'?201:999;
+  };
+  filtered.sort((a,b)=>{
+    if(listSort==='name')return String(a.name??'').localeCompare(String(b.name??'')) || compartmentRank(a.compartment)-compartmentRank(b.compartment);
+    if(listSort==='location')return String(a.location??'').localeCompare(String(b.location??'')) || String(a.name??'').localeCompare(String(b.name??''));
+    return compartmentRank(a.compartment)-compartmentRank(b.compartment) || String(a.location??'').localeCompare(String(b.location??'')) || String(a.name??'').localeCompare(String(b.name??''));
+  });
+  $('listCount').textContent=`${filtered.length} of ${items.length} equipment records`;
+  $('listResults').innerHTML=filtered.length?`<div class="inventory-table-scroll"><table class="inventory-table"><thead><tr><th scope="col">Equipment</th><th scope="col">Compartment</th><th scope="col">Shelf / location</th><th scope="col">Qty</th><th scope="col"><span class="sr-only">Open</span></th></tr></thead><tbody>${filtered.map(x=>{
+    const compartment=String(x.compartment??'').trim().toUpperCase();
+    const linked=['L1','L2','L3','L4','L5','L6','L7','L8','L9','R1','R2','R3','R4','R5','R6','R7','R8','R9','CAB','REAR'].includes(compartment);
+    return `<tr><td>${escapeHtml(x.name??'Unnamed equipment')}</td><td>${escapeHtml(compartment||'—')}</td><td>${escapeHtml(x.location||'—')}</td><td class="qty">${escapeHtml(x.quantity??'—')}</td><td>${linked?`<button type="button" class="inventory-open" data-open-compartment="${escapeHtml(compartment)}" aria-label="Open compartment ${escapeHtml(compartment)}">View</button>`:''}</td></tr>`;
+  }).join('')}</tbody></table></div>`:`<div class="empty">No equipment matches your search and compartment filter.</div>`;
+  $('listResults').querySelectorAll('[data-open-compartment]').forEach(btn=>btn.addEventListener('click',()=>{
+    const compartment=btn.dataset.openCompartment;
+    const next=compartment.startsWith('L')?'driver':compartment.startsWith('R')?'passenger':compartment==='CAB'?'front':'rear';
+    setPage('map');setView(next);openDrawer(compartment);
+  }));
+}
+
 function showPhoto(path){$('viewerImg').src=path;$('viewerCaption').textContent=path.split('/').pop();$('viewer').showModal();}
 function renderGallery(id,paths){const target=$(id);target.replaceChildren();paths.forEach((path,i)=>{const button=document.createElement('button');button.className='photo';const image=document.createElement('img');image.src=path;image.loading='lazy';image.alt='Source photo '+(i+1);const text=document.createElement('span');text.textContent=path.split('/').pop();button.append(image,text);button.addEventListener('click',()=>showPhoto(path));target.append(button);});}
-function init(){positions=readStorage(markersKey,{});checked=readStorage(checksKey,{});const saved=readStorage(storageKey,null);items=Array.isArray(saved)?saved:(Array.isArray(data.items)?data.items:[]);renderGallery('photos',data.photos||[]);renderGallery('sheetsGrid',data.sourceSheets||[]);const select=$('compartmentSelect');['L1','L2','L3','L4','L5','L6','L7','L8','L9','R1','R2','R3','R4','R5','R6','R7','R8','R9','CAB','REAR'].forEach(id=>{const op=document.createElement('option');op.textContent=id;op.value=id;select.append(op);});document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('calibrateBtn').onclick=()=>{calibrating=!calibrating;$('calibrateBtn').textContent=calibrating?'✓ Done calibrating':'♧ Calibrate';$('resetMap').classList.toggle('hidden',!calibrating);$('mapStatus').textContent=calibrating?'Drag markers to their compartment doors.':'Select a compartment to view its inventory.';closeDrawer();renderMarkers();};$('resetMap').onclick=()=>{if(!confirm('Reset marker positions for the current view?'))return;delete positions[view];store(markersKey,positions);renderMarkers();};$('closeDrawer').onclick=closeDrawer;$('scrim').onclick=closeDrawer;$('checkToggle').onclick=()=>{checking=!checking;$('checkToggle').textContent=checking?'✓ Exit check mode':'☑ Check mode';$('checkToggle').classList.toggle('active',checking);if(selected)renderCompartment();};$('checkAll').onclick=()=>{filteredByComp().forEach(x=>{checked[itemKey(x)]=true});store(checksKey,checked);renderCompartment();};$('clearChecks').onclick=()=>{filteredByComp().forEach(x=>{delete checked[itemKey(x)]});store(checksKey,checked);renderCompartment();};$('printComp').onclick=()=>window.print();$('printBtn').onclick=()=>window.print();$('themeBtn').onclick=()=>document.body.classList.toggle('light');$('addHere').onclick=()=>{const id=selected;setPage('list');$('compartmentSelect').value=id;$('entryForm').closest('details').open=true;$('entryForm').elements.namedItem('name').focus();};$('entryForm').onsubmit=e=>{e.preventDefault();const record=Object.fromEntries(new FormData(e.target));record.quantity=record.quantity===''?null:Number(record.quantity);if(!record.name?.trim())return;items.push(record);saveItems();e.target.reset();renderList();alert('Saved on this device. This is not a shared or approved apparatus inventory.');};$('globalSearch').addEventListener('input',()=>{if($('globalSearch').value.trim())setPage('list');renderList();});$('exportItems').onclick=()=>downloadJSON('collapse45_reviewed_equipment.json',{apparatus:'Collapse 45',unit:'3306',items});$('importItems').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const payload=JSON.parse(await file.text());if(!Array.isArray(payload.items))throw Error('Expected a JSON object with an items array');if(!confirm('Replace all equipment records saved in this browser with these imported records?'))return;items=payload.items;saveItems();renderList();}catch(err){alert('Import failed: '+err.message)}finally{e.target.value='';}};$('closeViewer').onclick=()=>$('viewer').close();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});setView('driver');renderList();initExcelImport();}
+function init(){ $('listCompartment').addEventListener('change',e=>{listCompartment=e.target.value;renderList();});$('listSort').addEventListener('change',e=>{listSort=e.target.value;renderList();});$('clearListFilters').addEventListener('click',()=>{listCompartment='ALL';listSort='compartment';$('listCompartment').value='ALL';$('listSort').value='compartment';$('globalSearch').value='';renderList();});positions=readStorage(markersKey,{});checked=readStorage(checksKey,{});const saved=readStorage(storageKey,null);items=Array.isArray(saved)?saved:(Array.isArray(data.items)?data.items:[]);renderGallery('photos',data.photos||[]);renderGallery('sheetsGrid',data.sourceSheets||[]);const select=$('compartmentSelect');['L1','L2','L3','L4','L5','L6','L7','L8','L9','R1','R2','R3','R4','R5','R6','R7','R8','R9','CAB','REAR'].forEach(id=>{const op=document.createElement('option');op.textContent=id;op.value=id;select.append(op);});document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>setPage(b.dataset.page));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('calibrateBtn').onclick=()=>{calibrating=!calibrating;$('calibrateBtn').textContent=calibrating?'✓ Done calibrating':'♧ Calibrate';$('resetMap').classList.toggle('hidden',!calibrating);$('mapStatus').textContent=calibrating?'Drag markers to their compartment doors.':'Select a compartment to view its inventory.';closeDrawer();renderMarkers();};$('resetMap').onclick=()=>{if(!confirm('Reset marker positions for the current view?'))return;delete positions[view];store(markersKey,positions);renderMarkers();};$('closeDrawer').onclick=closeDrawer;$('scrim').onclick=closeDrawer;$('checkToggle').onclick=()=>{checking=!checking;$('checkToggle').textContent=checking?'✓ Exit check mode':'☑ Check mode';$('checkToggle').classList.toggle('active',checking);if(selected)renderCompartment();};$('checkAll').onclick=()=>{filteredByComp().forEach(x=>{checked[itemKey(x)]=true});store(checksKey,checked);renderCompartment();};$('clearChecks').onclick=()=>{filteredByComp().forEach(x=>{delete checked[itemKey(x)]});store(checksKey,checked);renderCompartment();};$('printComp').onclick=()=>window.print();$('printBtn').onclick=()=>window.print();$('themeBtn').onclick=()=>document.body.classList.toggle('light');$('addHere').onclick=()=>{const id=selected;setPage('list');$('compartmentSelect').value=id;$('entryForm').closest('details').open=true;$('entryForm').elements.namedItem('name').focus();};$('entryForm').onsubmit=e=>{e.preventDefault();const record=Object.fromEntries(new FormData(e.target));record.quantity=record.quantity===''?null:Number(record.quantity);if(!record.name?.trim())return;items.push(record);saveItems();e.target.reset();renderList();alert('Saved on this device. This is not a shared or approved apparatus inventory.');};$('globalSearch').addEventListener('input',()=>{if($('globalSearch').value.trim())setPage('list');renderList();});$('exportItems').onclick=()=>downloadJSON('collapse45_reviewed_equipment.json',{apparatus:'Collapse 45',unit:'3306',items});$('importItems').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const payload=JSON.parse(await file.text());if(!Array.isArray(payload.items))throw Error('Expected a JSON object with an items array');if(!confirm('Replace all equipment records saved in this browser with these imported records?'))return;items=payload.items;saveItems();renderList();}catch(err){alert('Import failed: '+err.message)}finally{e.target.value='';}};$('closeViewer').onclick=()=>$('viewer').close();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});setView('driver');renderList();initExcelImport();}
 fetch('inventory.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(value=>{data=value;if(!data.rigViews)throw Error('Missing rigViews');init();}).catch(err=>{document.querySelector('.info-bar').textContent='Unable to load inventory.json ('+err.message+'). Use GitHub Pages or run a local web server in this folder.';});
 
 // Collapse 45 Excel / CSV import. Local-only: no uploads or external libraries.
