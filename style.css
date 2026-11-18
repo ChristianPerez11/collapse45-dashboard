@@ -57,3 +57,21 @@ body.light .info-bar strong{color:#17222e}
 .excel-diff table{border-collapse:collapse;width:100%;font-size:12px}.excel-diff th,.excel-diff td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border)}
 .excel-diff th{background:var(--panel2);position:sticky;top:0}
 @media print{.excel-dialog{display:none!important}}
+
+/* Version 7: compact, filterable inventory list */
+.inventory-filter-bar{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin:18px 0 12px}
+.inventory-filter-bar label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.inventory-filter-bar select{background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:9px 10px;min-width:155px}
+.inventory-filter-bar .outline{padding:10px 12px}
+.inventory-count{margin-left:auto;font-size:12px;color:var(--muted);padding-bottom:8px}
+.inventory-table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--panel)}
+.inventory-table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+.inventory-table th{text-align:left;color:var(--muted);font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel2);padding:12px 14px;position:sticky;top:0}
+.inventory-table td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:middle}
+.inventory-table tbody tr:hover{background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.inventory-table td:first-child{font-weight:600;min-width:170px}
+.inventory-table .qty{white-space:nowrap;font-variant-numeric:tabular-nums}
+.inventory-open{border:1px solid var(--border);color:var(--text);background:transparent;border-radius:7px;padding:6px 9px;font-size:12px}
+.inventory-open:hover{background:var(--panel2)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:790px){.inventory-filter-bar label{flex:1;min-width:125px}.inventory-filter-bar select{min-width:0;width:100%}.inventory-count{margin-left:0;width:100%;padding:0}}

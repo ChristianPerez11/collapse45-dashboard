@@ -6,114 +6,14 @@ const markersKey = 'collapse45_marker_positions_v2';
 const checksKey = 'collapse45_checks_v2';
 const modes = ['driver','passenger','front','rear'];
 const defaultMarkers = {
-  "driver": [
-    [
-      "L1",
-      29.45,
-      46.23
-    ],
-    [
-      "L2",
-      35.49,
-      46.77
-    ],
-    [
-      "L3",
-      41.98,
-      67.44
-    ],
-    [
-      "L4",
-      49.67,
-      66.89
-    ],
-    [
-      "L5",
-      57.36,
-      66.89
-    ],
-    [
-      "L6",
-      64.95,
-      66.89
-    ],
-    [
-      "L7",
-      73.08,
-      51.12
-    ],
-    [
-      "L8",
-      81.65,
-      51.12
-    ],
-    [
-      "L9",
-      90.55,
-      66.89
-    ]
+  driver: [
+    ['L1',29.45,46.23],['L2',35.49,46.77],['L3',41.98,67.44],['L4',49.67,66.89],['L5',57.36,66.89],['L6',64.95,66.89],['L7',73.08,51.12],['L8',81.65,51.12],['L9',90.55,66.89]
   ],
-  "passenger": [
-    [
-      "R1",
-      67.69,
-      43.31
-    ],
-    [
-      "R2",
-      61.54,
-      43.31
-    ],
-    [
-      "R3",
-      55.05,
-      63.88
-    ],
-    [
-      "R4",
-      47.58,
-      63.88
-    ],
-    [
-      "R5",
-      40.33,
-      63.88
-    ],
-    [
-      "R6",
-      33.08,
-      63.88
-    ],
-    [
-      "R7",
-      25.6,
-      44.39
-    ],
-    [
-      "R8",
-      18.57,
-      44.39
-    ],
-    [
-      "R9",
-      11.1,
-      63.88
-    ]
+  passenger: [
+    ['R1',67.69,43.31],['R2',61.54,43.31],['R3',55.05,63.88],['R4',47.58,63.88],['R5',40.33,63.88],['R6',33.08,63.88],['R7',25.60,44.39],['R8',18.57,44.39],['R9',11.10,63.88]
   ],
-  "front": [
-    [
-      "CAB",
-      50.73,
-      31.24
-    ]
-  ],
-  "rear": [
-    [
-      "REAR",
-      52.63,
-      32.74
-    ]
-  ]
+  front: [['CAB',50.73,31.24]],
+  rear: [['REAR',52.63,32.74]]
 };
 let data, items = [], view='driver', page='map', selected='', calibrating=false, checking=false, positions={}, checked={};
 function readStorage(key, fallback) {try { const value=JSON.parse(localStorage.getItem(key));return value ?? fallback;}catch{return fallback;}}
