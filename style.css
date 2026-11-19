@@ -75,3 +75,50 @@ body.light .info-bar strong{color:#17222e}
 .inventory-open:hover{background:var(--panel2)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 @media(max-width:790px){.inventory-filter-bar label{flex:1;min-width:125px}.inventory-filter-bar select{min-width:0;width:100%}.inventory-count{margin-left:0;width:100%;padding:0}}
+
+/* v8: fixed calibrated public map, check progress and specs */
+.rig-scroller{overflow-x:auto;overflow-y:hidden;border-radius:13px;overscroll-behavior-inline:contain}.rig-stage{min-height:0;box-shadow:none}.rig-scroller[data-rig-view=front] .rig-stage,.rig-scroller[data-rig-view=rear] .rig-stage{max-width:420px}.mobile-map-hint{display:none}.hotspot.calibrating{touch-action:none}.hotspot.complete,.check-chip.complete{background:#d9f2e3;color:#174a30;border-color:#82c99f}.check-summary,.spec-section,.offline-panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin:16px 0}.check-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.check-head span{color:var(--muted)}.check-head button{margin-left:auto}.check-summary progress{width:100%;height:12px;margin:14px 0;accent-color:#4eaf78}.check-compartments{display:flex;flex-wrap:wrap;gap:7px}.check-chip,.tool-info{background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:7px;padding:8px;font-size:12px}.tool-info{white-space:nowrap;flex:none}.spec-section h3,.offline-panel h3{margin:0 0 12px}.spec-section dl{margin:0}.spec-section dl>div{display:grid;grid-template-columns:minmax(110px,1fr) minmax(0,1.5fr);gap:12px;padding:11px 0;border-top:1px solid var(--border)}.spec-section dt{color:var(--muted)}.spec-section dd{margin:0;overflow-wrap:anywhere}.spec-section dd small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.spec-section dd.unverified{color:var(--muted);font-style:italic}.admin-banner{padding:10px 20px;background:#4a3421;color:white;font-size:12px}.spec-edit-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}.spec-edit-row input{width:100%}#toolDialog{max-width:min(480px,94vw);padding:20px}
+@media(max-width:790px){.rig-scroller[data-rig-view=driver] .rig-stage,.rig-scroller[data-rig-view=passenger] .rig-stage{min-width:850px}.rig-scroller .rig-stage .hotspot{min-width:44px;height:40px;font-size:12px}.rig-scroller[data-rig-view=driver]+.mobile-map-hint,.rig-scroller[data-rig-view=passenger]+.mobile-map-hint{display:block;color:var(--muted);font-size:12px;text-align:center}.head-actions .searchbox input{font-size:16px}.drawer{width:100vw}.drawer-actions button,.inventory-open,.check-chip{min-height:44px}.spec-edit-row{grid-template-columns:1fr}.inventory-table td{padding:9px 10px}.check-head button{margin-left:0}.spec-section dl>div{grid-template-columns:minmax(100px,1fr) minmax(0,1.4fr)}}
+@media print{.check-summary,.offline-panel,.tool-info,.mobile-map-hint{display:none!important}}
+
+.offline-warning{border-left:3px solid #e8ad55;background:var(--panel);color:var(--text);padding:12px;border-radius:5px;font-size:12px}
+
+
+/* Version 8.1 — SMFR-inspired identity. Layout, marker geometry and logic unchanged. */
+:root {
+ --bg:#0c1728;--panel:#14253d;--panel2:#1c314d;--text:#f3f5f8;--muted:#b4c4d6;
+ --border:#3b506c;--red:#84263b;--gold:#c9ae70;--navy:#10284b;--shade:#0d1b2e;--input:#0d1c30;
+ --shelf:#e5c784;--hover:#223c5a;--focus:#e5c784;--active-bg:#84263b;
+}
+body{background:var(--bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.topbar{background:var(--navy);border-bottom:2px solid var(--gold);gap:16px;flex-wrap:wrap;padding:14px 20px}
+.brand{min-width:0;max-width:100%;gap:17px;flex:0 1 auto}
+.brand-copy{min-width:0}
+.brand strong{font-size:22px;font-weight:720;letter-spacing:-.025em;line-height:1.25}
+.brand span{font-size:11px;line-height:1.4;margin-top:2px}
+.eyebrow{color:var(--gold);letter-spacing:.15em;font-weight:740;font-size:10px}
+.brand-logos{display:flex;align-items:center;gap:10px;border-left:1px solid var(--gold);padding-left:14px;flex:none}
+.brand-logo{display:block;object-fit:contain;width:58px;height:58px;flex:none}
+.head-actions{flex:1 1 auto;min-width:0}
+.mode-tabs .active,.view-tabs .selected,.primary{background:var(--active-bg)!important;color:#fff!important}
+.outline:hover,.upload-btn:hover,.mode-tabs button:hover,.view-tabs button:hover,.icon-btn:hover{border-color:var(--gold);background:var(--hover)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.searchbox input::placeholder{color:var(--muted)}
+.info-bar{background:var(--panel);border-left:3px solid var(--gold);color:var(--muted)}
+.info-bar strong{color:var(--text)}
+.drawer-id{background:var(--red);color:#fff}
+#drawer .equipment-shelf-title{color:var(--shelf)}
+.hotspot:hover,.hotspot.active{background:var(--active-bg);color:white;border-color:#fff}
+.hotspot.calibrating{background:#ffca46;color:#152436}
+.hotspot.complete:not(.active):not(:hover):not(.calibrating){background:#d9f2e3;color:#174a30;border-color:#82c99f}
+.admin-banner{background:#594725;color:#fff7e6;border-bottom:1px solid var(--gold)}
+.offline-warning{border-color:var(--gold)}
+body.light{--bg:#f5f5f3;--panel:#fff;--panel2:#edf1f6;--text:#172941;--muted:#4f637b;--border:#cbd3dd;--shade:#fff;--input:#f4f6f8;--red:#84263b;--gold:#a98b4d;--shelf:#84263b;--hover:#e6edf5;--focus:#84263b;--navy:#10284b;background:var(--bg)}
+body.light .topbar{background:#fff;color:var(--text)}
+body.light .eyebrow{color:#84263b}
+body.light .info-bar{background:var(--panel);color:var(--muted)}
+body.light .info-bar strong{color:var(--text)}
+body.light #drawer .drawer-head{background:var(--panel)}
+@media(max-width:790px){.topbar{padding:12px 14px;gap:14px}.brand{width:100%;justify-content:space-between;gap:10px}.brand-copy{flex:1}.brand strong{font-size:21px}.brand span{font-size:11px}.brand-logos{gap:7px;padding-left:9px}.brand-logo{width:44px;height:44px}.head-actions{width:100%}}
+@media(max-width:360px){.brand-logo{width:37px;height:37px}.brand-logos{gap:4px;padding-left:7px}.brand strong{font-size:19px}}
+@media print{body,body.light{--text:#111;--muted:#555;--shelf:#84263b;--panel:white;background:white;color:black}}

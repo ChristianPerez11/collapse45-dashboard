@@ -1,0 +1,299 @@
+{
+  "groups": [
+    {
+      "title": "Apparatus identification",
+      "fields": [
+        {
+          "label": "Apparatus",
+          "value": "Collapse 45",
+          "source": "September 19, 2026 inventory sheets"
+        },
+        {
+          "label": "Unit",
+          "value": "3306",
+          "source": "Inventory sheet heading and cab markings"
+        },
+        {
+          "label": "Assignment / type",
+          "value": "Technical rescue / collapse",
+          "source": "Apparatus markings"
+        },
+        {
+          "label": "Configuration",
+          "value": "Tractor and compartmented semi-trailer",
+          "source": "Apparatus photographs"
+        },
+        {
+          "label": "Chassis manufacturer",
+          "value": "Freightliner",
+          "source": "Apparatus details supplied by user; manufacturer plate not independently reviewed."
+        },
+        {
+          "label": "Chassis model / model year",
+          "value": "2021 Freightliner M2-112 — working identification",
+          "source": "5280Fire and Eric’s Fire Pics identify Unit 3306 as an M2-112; owner agrees after photo comparison. VIN / fleet build sheet confirmation pending."
+        },
+        {
+          "label": "Trailer manufacturer / year",
+          "value": "2021 Hackney",
+          "source": "Apparatus details supplied by user; manufacturer plate not independently reviewed."
+        },
+        {
+          "label": "Cab configuration",
+          "value": "Day cab, low roof (reported)",
+          "source": "User-supplied configuration and apparatus photographs; exact cab dimensions not verified."
+        },
+        {
+          "label": "Tractor axle configuration",
+          "value": "Two axles: one steer axle and one rear axle",
+          "source": "Visible in supplied apparatus reference photograph IMG_0241(1).jpeg; axle ratings not established."
+        },
+        {
+          "label": "Trailer body type",
+          "value": "Custom side-load technical rescue / collapse semi-trailer",
+          "source": "User-supplied description; SMFR Fleet Friday (October 22, 2021) confirms custom Hackney trailer."
+        },
+        {
+          "label": "Trailer serial number",
+          "value": "20f09571",
+          "source": "User-supplied serial, reproduced as provided; verify against trailer label."
+        },
+        {
+          "label": "Trailer side doors",
+          "value": "18 (9 driver side / 9 passenger side)",
+          "source": "User-supplied door count and existing labelled compartment map L1–L9 / R1–R9."
+        },
+        {
+          "label": "Trailer rear access",
+          "value": "Separate rear double-door storage access",
+          "source": "Supplied rear compartment photograph."
+        },
+        {
+          "label": "Trailer axle configuration",
+          "value": "Tandem axle (two axles)",
+          "source": "Visible in supplied apparatus photographs; also described in Firehouse coverage of SMFR technical rescue."
+        },
+        {
+          "label": "Trailer build / job reference (reported)",
+          "value": "TU1982 — not independently verified",
+          "source": "5280Fire Station 45 apparatus listing; this reference is separate from user-supplied serial number."
+        }
+      ]
+    },
+    {
+      "title": "Dimensions and weights",
+      "fields": [
+        {
+          "label": "Overall length (coupled)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Overall height (maximum travel height)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Overall width",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tractor wheelbase",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tractor GVWR",
+          "value": "35,000 — unit not confirmed",
+          "source": "User-supplied rating. Confirm lb or kg on the certification label before using."
+        },
+        {
+          "label": "Trailer GVWR",
+          "value": "24,948 — unit not confirmed",
+          "source": "User-supplied rating. Confirm lb or kg on the certification label before using."
+        },
+        {
+          "label": "GCWR",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Actual loaded weight / axle weights",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer body length",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tractor front GAWR",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tractor rear GAWR",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer axle GAWR (per axle)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer unloaded / tare weight",
+          "value": "",
+          "source": ""
+        }
+      ]
+    },
+    {
+      "title": "Powertrain and operating capacities",
+      "fields": [
+        {
+          "label": "Engine make / model",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Engine rated horsepower",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Transmission",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Fuel type / tank capacity",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "DEF capacity (if equipped)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Onboard electrical / shore power",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tire sizes / cold inflation specifications",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer coupling / kingpin specification",
+          "value": "Tractor–semi-trailer configuration; coupling rating and kingpin size unverified",
+          "source": "Apparatus photographs and SMFR Fleet Friday; verify coupling data plate."
+        },
+        {
+          "label": "Engine displacement",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Engine rated torque",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Brake system / ABS specification",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Tractor suspension",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer suspension",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Generator make / rating (installed system)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Trailer electrical / shore-power rating",
+          "value": "",
+          "source": ""
+        }
+      ]
+    },
+    {
+      "title": "Freightliner M2-112 model reference — NOT unit-specific ratings",
+      "fields": [
+        {
+          "label": "Model identification status",
+          "value": "M2-112 adopted as working model; certification pending.",
+          "source": "Public apparatus listings and owner photo comparison. Verify against VIN or fleet build sheet before selecting model-specific procedures or assigning ratings."
+        },
+        {
+          "label": "M2 112 day cab — BBC dimension",
+          "value": "112 in (model-family dimension only)",
+          "source": "Freightliner M2 112 brochure. Model-family reference; not a verified measurement of Unit 3306."
+        },
+        {
+          "label": "M2 112 — period engine options",
+          "value": "Detroit DD13; Cummins L9 / L9N",
+          "source": "FleetOwner 2021 Equipment Specs. Model-family options, not evidence of the installed engine."
+        },
+        {
+          "label": "GVWR and GCWR caution",
+          "value": "Individual GVWR values must not be added and treated as GCWR.",
+          "source": "Use the manufacturer’s combination rating and verified axle, tire and coupling ratings. Actual loaded weights require weighing."
+        }
+      ]
+    },
+    {
+      "title": "Reference and safety documentation",
+      "fields": [
+        {
+          "label": "Apparatus operator manual reference",
+          "value": "Freightliner Business Class M2 driver and maintenance manuals — verify model and applicability before use",
+          "source": "Manufacturer: https://www.freightliner.com/parts/driver-maintenance-manuals/"
+        },
+        {
+          "label": "Trailer operator manual reference",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Department operating guideline reference",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Last verified date / reviewer (public-safe reference)",
+          "value": "",
+          "source": ""
+        },
+        {
+          "label": "Official SMFR apparatus reference",
+          "value": "Battalion 4 / Station 45; Collapse 45 Fleet Friday (2021)",
+          "source": "https://www.southmetro.org/battalion-4 — https://www.youtube.com/watch?v=yP8NaFV3ZX8"
+        },
+        {
+          "label": "Chassis identification reference",
+          "value": "NHTSA VIN decoder and Freightliner fleet build sheet",
+          "source": "https://vpic.nhtsa.dot.gov/decoder/ — obtain VIN locally; do not publish it."
+        },
+        {
+          "label": "Trailer manufacturer reference",
+          "value": "Hackney; request the unit-specific build sheet using the serial number",
+          "source": "https://hackneyusa.com/"
+        }
+      ]
+    }
+  ]
+}
