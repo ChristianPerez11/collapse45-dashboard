@@ -122,3 +122,55 @@ body.light #drawer .drawer-head{background:var(--panel)}
 @media(max-width:790px){.topbar{padding:12px 14px;gap:14px}.brand{width:100%;justify-content:space-between;gap:10px}.brand-copy{flex:1}.brand strong{font-size:21px}.brand span{font-size:11px}.brand-logos{gap:7px;padding-left:9px}.brand-logo{width:44px;height:44px}.head-actions{width:100%}}
 @media(max-width:360px){.brand-logo{width:37px;height:37px}.brand-logos{gap:4px;padding-left:7px}.brand strong{font-size:19px}}
 @media print{body,body.light{--text:#111;--muted:#555;--shelf:#84263b;--panel:white;background:white;color:black}}
+
+
+/* v8.2.3 — compact, on-demand apparatus specification references */
+.spec-disclosure-guide {
+  color:var(--muted);
+  font-size:12px;
+  margin:12px 0 18px;
+}
+.spec-list {margin:0;}
+.spec-entry {border-top:1px solid var(--border);}
+.spec-entry-main {
+  display:grid;
+  grid-template-columns:minmax(110px,1fr) minmax(0,1.5fr) 18px;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:12px 8px;
+  border-radius:6px;
+  list-style:none;
+}
+.spec-entry > summary {cursor:pointer;}
+.spec-entry > summary::-webkit-details-marker {display:none;}
+.spec-entry > summary::marker {content:'';}
+.spec-entry > summary:hover {background:var(--panel2);}
+.spec-entry > summary:focus-visible {
+  outline:2px solid var(--gold);
+  outline-offset:-2px;
+}
+.spec-entry-label {color:var(--muted);}
+.spec-entry-value {color:var(--text);overflow-wrap:anywhere;}
+.spec-entry-arrow {color:var(--gold);justify-self:end;font-size:16px;line-height:1;}
+.spec-entry[open] > summary {background:var(--panel2);}
+.spec-entry[open] .spec-entry-arrow {transform:rotate(180deg);}
+.spec-entry-source {
+  margin:0 8px 12px;
+  padding:11px 12px;
+  border-left:2px solid var(--gold);
+  border-radius:0 6px 6px 0;
+  background:var(--panel2);
+  overflow-wrap:anywhere;
+}
+.spec-entry-source strong {
+  display:block;
+  font-size:10px;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.spec-entry-source p {margin:5px 0 0;color:var(--text);font-size:12px;line-height:1.6;}
+@media(max-width:790px){
+  .spec-entry-main {grid-template-columns:minmax(100px,1fr) minmax(0,1.4fr) 16px;gap:8px;padding:14px 4px;}
+}

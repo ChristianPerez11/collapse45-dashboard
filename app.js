@@ -337,7 +337,71 @@ function renderProgress(){const total=items.length,done=items.filter(x=>checked[
 const toolRefs=[[/^Honda Generator/i,'Portable generator','Supplies electrical power to compatible equipment. Confirm the exact generator model, electrical ratings and manufacturer instructions.'],[/^Sked$/i,'Flexible rescue litter','A flexible patient packaging and transport device used in technical rescue.'],[/^Tri-Pod$/i,'Rescue tripod','An elevated anchor system for compatible rescue rigging. Configuration and loading require trained personnel and manufacturer guidance.'],[/^Stokes Basket$/i,'Rescue basket','A rigid litter used for patient transport and compatible rescue rigging.'],[/^Stanley Concrete Chain Saw$/i,'Concrete chain saw','A specialized saw for cutting concrete or masonry using compatible equipment.'],[/^Stanley Sump Pump$/i,'Sump pump','Removes accumulated water where the equipment and operating conditions are suitable.'],[/Search Camera/i,'Search camera','Helps rescuers visually examine restricted or inaccessible spaces.'],[/Bottle Jack with Handles/i,'Bottle jack','A hydraulic lifting device. Do not infer safe working limits from this reference.'],[/Cribbing$/i,'Cribbing','Wood members used in compatible stabilization and support systems.'],[/Paratech Struts$/i,'Rescue strut','A component of a compatible stabilization or shoring system. Exact capacity depends on model and configuration.'],[/Compound Miter Saw/i,'Miter saw','A saw used for dimensional lumber cuts, including shoring material preparation.'],[/^Stihl Chainsaw$/i,'Chainsaw','A powered saw used for compatible cutting tasks. Verify the actual model and chain.'],[/^Concrete Cutting Chainsaw$/i,'Concrete-cutting chainsaw','A specialized saw for concrete cutting with compatible chain and power supply.']];
 function toolReference(name){return toolRefs.find(x=>x[0].test(String(name)));}
 function openToolReference(name){const ref=toolReference(name);if(!ref)return;$('toolTitle').textContent=ref[1];$('toolItem').textContent=name;$('toolPurpose').textContent=ref[2];$('toolDialog').showModal();}
-let specsData=null;async function loadSpecs(){try{const res=await fetch('apparatus-specs.json');if(!res.ok)throw Error('HTTP '+res.status);specsData=await res.json();const box=$('apparatusSpecs');box.replaceChildren();for(const group of specsData.groups){const section=document.createElement('section');section.className='spec-section';const h=document.createElement('h3');h.textContent=group.title;section.append(h);const dl=document.createElement('dl');for(const f of group.fields){const row=document.createElement('div');const dt=document.createElement('dt');dt.textContent=f.label;const dd=document.createElement('dd');dd.textContent=f.value||'Not yet verified';if(!f.value)dd.className='unverified';const small=document.createElement('small');small.textContent=f.source||'Awaiting apparatus documentation';dd.append(small);row.append(dt,dd);dl.append(row);}section.append(dl);box.append(section);}if(isAdmin)renderSpecEditor();}catch(e){$('apparatusSpecs').textContent='Specification file unavailable: '+e.message;}}
+// v8.2.3: keep unfilled records in JSON and the admin editor, but omit them from the public Specs list.
+// Each populated entry is a keyboard-accessible disclosure. Its source is revealed only on click/tap.
+let specsData=null;
+async function loadSpecs(){
+  try {
+    const res=await fetch('apparatus-specs.json');
+    if(!res.ok)throw Error('HTTP '+res.status);
+    specsData=await res.json();
+    const box=$('apparatusSpecs');
+    box.replaceChildren();
+    let visible=0;
+    for(const group of specsData.groups||[]){
+      const populated=(group.fields||[]).filter(f=>f.value!=null&&String(f.value).trim()!=='');
+      if(!populated.length)continue;
+      const section=document.createElement('section');
+      section.className='spec-section';
+      const h=document.createElement('h3');
+      h.textContent=group.title;
+      section.append(h);
+      const list=document.createElement('div');
+      list.className='spec-list';
+      for(const f of populated){
+        visible++;
+        const source=String(f.source||'').trim();
+        const entry=document.createElement(source?'details':'div');
+        entry.className='spec-entry'+(source?'':' spec-entry-no-source');
+        const main=document.createElement(source?'summary':'div');
+        main.className='spec-entry-main';
+        const label=document.createElement('span');
+        label.className='spec-entry-label';
+        label.textContent=f.label;
+        const value=document.createElement('span');
+        value.className='spec-entry-value';
+        value.textContent=String(f.value).trim();
+        const arrow=document.createElement('span');
+        arrow.className='spec-entry-arrow';
+        arrow.setAttribute('aria-hidden','true');
+        arrow.textContent=source?'⌄':'';
+        main.append(label,value,arrow);
+        entry.append(main);
+        if(source){
+          const panel=document.createElement('div');
+          panel.className='spec-entry-source';
+          const heading=document.createElement('strong');
+          heading.textContent='Source / verification reference';
+          const detail=document.createElement('p');
+          detail.textContent=source;
+          panel.append(heading,detail);
+          entry.append(panel);
+        }
+        list.append(entry);
+      }
+      section.append(list);
+      box.append(section);
+    }
+    if(!visible){
+      const message=document.createElement('p');
+      message.className='muted';
+      message.textContent='No apparatus specifications have been entered yet.';
+      box.append(message);
+    }
+    // Preserve the complete dataset, including blank fields, in the private editor.
+    if(isAdmin)renderSpecEditor();
+  }catch(e){$('apparatusSpecs').textContent='Specification file unavailable: '+e.message;}
+}
 function renderSpecEditor(){const box=$('specEditFields');box.replaceChildren();for(const g of specsData.groups){const h=document.createElement('h3');h.textContent=g.title;box.append(h);for(const f of g.fields){const wrap=document.createElement('div');wrap.className='spec-edit-row';for(const [field,label] of [['value',f.label],['source','Source / verification reference']]){const l=document.createElement('label');l.textContent=label;const input=document.createElement('input');input.value=f[field]||'';input.placeholder=field==='value'?'Not yet verified':'Manufacturer plate, manual, date…';input.oninput=()=>{f[field]=input.value.trim();};l.append(input);wrap.append(l);}box.append(wrap);}}}
 function initAdminTools(){ $('exportSpecs').onclick=()=>{if(!specsData)return;if(specsData.groups.some(g=>g.fields.some(f=>f.value&&!f.source))){alert('Enter a source for every populated specification before exporting.');return;}downloadJSON('apparatus-specs.json',specsData);};$('exportMarkers').onclick=()=>downloadJSON('collapse45-marker-coordinates.json',Object.fromEntries(modes.map(m=>[m,Object.fromEntries(defaultMarkers[m].map(([id,x,y])=>[id,positions[m]?.[id]||{x,y}]))])));$('adminNotice').textContent='Local administration only. Export changes and publish them through your authorized GitHub account.';}
 async function initOffline(){const warning=$('offlineWarning');const connection=()=>warning.classList.toggle('hidden',navigator.onLine);connection();window.addEventListener('online',connection);window.addEventListener('offline',connection);if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='using-snapshot')warning.classList.remove('hidden');});const status=$('offlineStatus'),btn=$('offlineSave');if(isAdmin){$('offlinePanel').classList.add('hidden');return;}if(!('serviceWorker' in navigator)||!window.isSecureContext){status.textContent='Offline saving requires HTTPS or localhost.';btn.disabled=true;return;}try{try{await navigator.serviceWorker.register('./sw.js');}catch(e){if(!await navigator.serviceWorker.getRegistration())throw e;}await navigator.serviceWorker.ready;const send=(msg)=>new Promise((resolve,reject)=>{const worker=navigator.serviceWorker.controller||navigator.serviceWorker.ready.then(r=>r.active);Promise.resolve(worker).then(w=>{const ch=new MessageChannel();const timeout=setTimeout(()=>reject(Error('Offline request timed out. Reconnect and try again.')),120000);ch.port1.onmessage=e=>{clearTimeout(timeout);resolve(e.data);};w.postMessage(msg,[ch.port2]);}).catch(reject);});const report=await send({type:'status'});status.textContent=report.saved?'Offline snapshot saved '+new Date(report.saved).toLocaleString()+'. Re-save after inventory updates.':'No offline snapshot saved.';btn.onclick=async()=>{btn.disabled=true;status.textContent='Saving inventory and reference images…';try{const result=await send({type:'save'});if(!result.ok)throw Error(result.error);status.textContent='Offline snapshot saved '+new Date(result.saved).toLocaleString()+'. Re-save after updates.';}catch(e){status.textContent='Offline save failed: '+e.message;}finally{btn.disabled=false;}};}catch(e){status.textContent='Offline saving unavailable: '+e.message;btn.disabled=true;}}
