@@ -26,12 +26,12 @@
         {
           "label": "Chassis manufacturer",
           "value": "Freightliner",
-          "source": "Apparatus details supplied by user; manufacturer plate not independently reviewed."
+          "source": "Hackney final work order, p. 1, dated 08/26/2020; Freightliner door-jamb component label (IMG_0335 / IMG_0339)."
         },
         {
           "label": "Chassis model / model year",
-          "value": "2021 Freightliner M2-112 — working identification",
-          "source": "5280Fire and Eric’s Fire Pics identify Unit 3306 as an M2-112; owner agrees after photo comparison. VIN / fleet build sheet confirmation pending."
+          "value": "2021 Freightliner M2-112",
+          "source": "Hackney final work order p. 1 explicitly specifies “FREIGHTLINER M2-112” and “2021 MODEL YEAR SPECIFIED” (IMG_0339)."
         },
         {
           "label": "Trailer manufacturer / year",
@@ -40,13 +40,13 @@
         },
         {
           "label": "Cab configuration",
-          "value": "Day cab, low roof (reported)",
-          "source": "User-supplied configuration and apparatus photographs; exact cab dimensions not verified."
+          "value": "Low-roof, 2-door day cab; maximum 2 personnel",
+          "source": "Hackney final work order p. 1: two-door M2-112; in-cab vehicle placard: designed to carry max. two personnel (IMG_0338). Low-roof configuration per owner and vehicle photos."
         },
         {
           "label": "Tractor axle configuration",
-          "value": "Two axles: one steer axle and one rear axle",
-          "source": "Visible in supplied apparatus reference photograph IMG_0241(1).jpeg; axle ratings not established."
+          "value": "Two axles: front steer axle and single rear drive axle",
+          "source": "Hackney final work order pp. 1 and 4 (IMG_0339 and IMG_0342)."
         },
         {
           "label": "Trailer body type",
@@ -55,8 +55,8 @@
         },
         {
           "label": "Trailer serial number",
-          "value": "20f09571",
-          "source": "User-supplied serial, reproduced as provided; verify against trailer label."
+          "value": "",
+          "source": "Trailer serial number not established by supplied documents; 20F09571 is labeled as a Hackney job/order number, not a confirmed serial number."
         },
         {
           "label": "Trailer side doors",
@@ -75,8 +75,8 @@
         },
         {
           "label": "Trailer build / job reference (reported)",
-          "value": "TU1982 — not independently verified",
-          "source": "5280Fire Station 45 apparatus listing; this reference is separate from user-supplied serial number."
+          "value": "Hackney job/order no. 20F09571; body code TU100",
+          "source": "Hackney final work order, p. 1 (IMG_0339); replaces earlier unsupported TU1982 report."
         }
       ]
     },
@@ -85,13 +85,13 @@
       "fields": [
         {
           "label": "Overall length (coupled)",
-          "value": "",
-          "source": ""
+          "value": "55 ft 6 in",
+          "source": "In-cab vehicle height/length/GVWR placard (IMG_0338). Operational clearance should be remeasured if the vehicle configuration has changed."
         },
         {
           "label": "Overall height (maximum travel height)",
-          "value": "",
-          "source": ""
+          "value": "10 ft 6 in (as manufactured)",
+          "source": "In-cab vehicle height/length/GVWR placard (IMG_0338). Label instructs owner to revise for changes; verify current height before clearance decisions."
         },
         {
           "label": "Overall width",
@@ -100,13 +100,13 @@
         },
         {
           "label": "Tractor wheelbase",
-          "value": "",
-          "source": ""
+          "value": "150 in (3,800 mm)",
+          "source": "Hackney final work order, p. 5: wheelbase 3800 mm / 150 in (IMG_0343)."
         },
         {
           "label": "Tractor GVWR",
-          "value": "35,000 — unit not confirmed",
-          "source": "User-supplied rating. Confirm lb or kg on the certification label before using."
+          "value": "35,000 lb",
+          "source": "In-cab placard (IMG_0338) and Hackney final work order p. 1 (IMG_0339)."
         },
         {
           "label": "Trailer GVWR",
@@ -116,7 +116,7 @@
         {
           "label": "GCWR",
           "value": "",
-          "source": ""
+          "source": "Build order p. 1 states 80,000 lb EXPECTED gross combination weight, not a verified rated GCWR. Do not use as certified GCWR without chassis documentation."
         },
         {
           "label": "Actual loaded weight / axle weights",
@@ -130,13 +130,13 @@
         },
         {
           "label": "Tractor front GAWR",
-          "value": "",
-          "source": ""
+          "value": "12,000 lb (specified axle rating)",
+          "source": "Freightliner door-jamb component rating label and Hackney build order pp. 1, 3 (IMG_0335, IMG_0339, IMG_0341); verify on vehicle certification label for formal GAWR."
         },
         {
           "label": "Tractor rear GAWR",
-          "value": "",
-          "source": ""
+          "value": "23,000 lb (specified axle rating)",
+          "source": "Freightliner door-jamb component rating label and Hackney build order pp. 1, 4 (IMG_0335, IMG_0339, IMG_0342); verify on vehicle certification label for formal GAWR."
         },
         {
           "label": "Trailer axle GAWR (per axle)",
@@ -155,28 +155,28 @@
       "fields": [
         {
           "label": "Engine make / model",
-          "value": "",
-          "source": ""
+          "value": "Cummins L9 / ISL-400 (build designation)",
+          "source": "Hackney final work order pp. 1–2: “Cummins ISL-400” and “CUM L9 400EV” (IMG_0339 and IMG_0340)."
         },
         {
           "label": "Engine rated horsepower",
-          "value": "",
-          "source": ""
+          "value": "400 hp @ 2,100 RPM",
+          "source": "Hackney final work order p. 2 (IMG_0340)."
         },
         {
           "label": "Transmission",
-          "value": "",
-          "source": ""
+          "value": "Allison 3000 EVS automatic (PTO provision)",
+          "source": "Hackney final work order p. 3 (IMG_0341)."
         },
         {
           "label": "Fuel type / tank capacity",
-          "value": "",
-          "source": ""
+          "value": "Diesel; 60 US gal (227 L)",
+          "source": "Hackney final work order p. 5 lists a 60-gallon LH aluminum fuel tank (IMG_0343). Diesel confirmed in engine and aftertreatment specifications."
         },
         {
           "label": "DEF capacity (if equipped)",
-          "value": "",
-          "source": ""
+          "value": "6 US gal",
+          "source": "Hackney final work order p. 3 specifies a 6-gallon diesel exhaust fluid tank (IMG_0341)."
         },
         {
           "label": "Onboard electrical / shore power",
@@ -185,13 +185,13 @@
         },
         {
           "label": "Tire sizes / cold inflation specifications",
-          "value": "",
-          "source": ""
+          "value": "Front and rear: 11R22.5, 14-ply; cold inflation not provided",
+          "source": "Hackney final work order p. 5: Michelin XZE2 front, Michelin X Multi Energy D rear (IMG_0343). Obtain tire-pressure placard before use."
         },
         {
           "label": "Trailer coupling / kingpin specification",
-          "value": "Tractor–semi-trailer configuration; coupling rating and kingpin size unverified",
-          "source": "Apparatus photographs and SMFR Fleet Friday; verify coupling data plate."
+          "value": "Holland FW31 fifth wheel; kingpin size not confirmed",
+          "source": "Hackney final work order p. 5 identifies Holland FW31 with 7-in fifth-wheel height (IMG_0343); kingpin size not stated."
         },
         {
           "label": "Engine displacement",
@@ -200,18 +200,18 @@
         },
         {
           "label": "Engine rated torque",
-          "value": "",
-          "source": ""
+          "value": "1,250 lb-ft @ 1,400 RPM",
+          "source": "Hackney final work order p. 2 (IMG_0340)."
         },
         {
           "label": "Brake system / ABS specification",
-          "value": "",
-          "source": ""
+          "value": "Air brakes; WABCO 4S/4M ABS with traction control",
+          "source": "Hackney final work order pp. 3–4 describes air brake package, drum foundation brakes and WABCO 4S/4M ABS (IMG_0341 and IMG_0342)."
         },
         {
           "label": "Tractor suspension",
-          "value": "",
-          "source": ""
+          "value": "Front: 12,000-lb taperleaf; rear: 23,000-lb flat leaf",
+          "source": "Hackney final work order p. 4 (IMG_0342)."
         },
         {
           "label": "Trailer suspension",
@@ -235,8 +235,8 @@
       "fields": [
         {
           "label": "Model identification status",
-          "value": "M2-112 adopted as working model; certification pending.",
-          "source": "Public apparatus listings and owner photo comparison. Verify against VIN or fleet build sheet before selecting model-specific procedures or assigning ratings."
+          "value": "2021 Freightliner M2-112 confirmed in unit-specific build order.",
+          "source": "Hackney final work order p. 1 (IMG_0339)."
         },
         {
           "label": "M2 112 day cab — BBC dimension",
@@ -245,13 +245,13 @@
         },
         {
           "label": "M2 112 — period engine options",
-          "value": "Detroit DD13; Cummins L9 / L9N",
-          "source": "FleetOwner 2021 Equipment Specs. Model-family options, not evidence of the installed engine."
+          "value": "Installed engine per build order: Cummins L9 / ISL-400",
+          "source": "Hackney final work order pp. 1–2 (IMG_0339 and IMG_0340). Replaces generic engine-option reference."
         },
         {
           "label": "GVWR and GCWR caution",
-          "value": "Individual GVWR values must not be added and treated as GCWR.",
-          "source": "Use the manufacturer’s combination rating and verified axle, tire and coupling ratings. Actual loaded weights require weighing."
+          "value": "Tractor GVWR confirmed at 35,000 lb. GCWR not yet verified; do not add GVWR ratings to derive GCWR.",
+          "source": "In-cab placard (IMG_0338); Hackney build order p. 1 mentions expected gross combination weight but no independently verified certification rating."
         }
       ]
     },
@@ -275,8 +275,8 @@
         },
         {
           "label": "Last verified date / reviewer (public-safe reference)",
-          "value": "",
-          "source": ""
+          "value": "2026-11-20 — document review (not a vehicle reinspection)",
+          "source": "User-provided Freightliner labels, in-cab placard, Hackney engineering drawings and build order photographed Nov 2026; no reviewer name published."
         },
         {
           "label": "Official SMFR apparatus reference",
